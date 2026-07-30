@@ -1,0 +1,32 @@
+.dashboard {
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.card {
+  width: 220px;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  background: #f2f2f2;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.card h3 {
+  color: #333;
+}
+
+.card h2 {
+  font-size: 35px;
+}
