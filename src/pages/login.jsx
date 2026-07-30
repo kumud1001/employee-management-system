@@ -1,93 +1,74 @@
-import {useState} from "react";
-import axios from "axios";
-
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
-function Login(){
+function Login() {
 
-const [username,setUsername]
-=useState("");
+  const navigate = useNavigate();
 
-const [password,setPassword]
-=useState("");
-
-
-const navigate=useNavigate();
+  const [username,setUsername] = useState("");
+  const [password,setPassword] = useState("");
 
 
+  const handleLogin = () => {
 
-const login=async()=>{
+    if(username === "admin" && password === "12345") {
 
+      localStorage.setItem(
+        "isLoggedIn",
+        "true"
+      );
 
-const response =
-await axios.post(
-"http://localhost:8080/login",
-{
-username,
-password
-}
-);
+      alert("Login Successful");
 
+      navigate("/employees");
 
+    }
+    else {
 
-localStorage.setItem(
-"token",
-response.data.token
-);
+      alert("Invalid username or password");
 
+    }
 
-
-navigate("/dashboard");
+  };
 
 
-}
+  return (
+
+    <div style={{padding:"30px"}}>
+
+      <h1>Login</h1>
 
 
-
-return(
-
-<div>
-
-<h2>
-Login
-</h2>
+      <input
+        placeholder="Username"
+        value={username}
+        onChange={(e)=>setUsername(e.target.value)}
+      />
 
 
-<input
-
-placeholder="Username"
-
-onChange={
-e=>setUsername(e.target.value)
-}
-
-/>
+      <br/><br/>
 
 
-<input
-
-type="password"
-
-placeholder="Password"
-
-onChange={
-e=>setPassword(e.target.value)
-}
-
-/>
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e)=>setPassword(e.target.value)}
+      />
 
 
-<button onClick={login}>
-
-Login
-
-</button>
+      <br/><br/>
 
 
-</div>
+      <button onClick={handleLogin}>
+        Login
+      </button>
 
-)
+
+    </div>
+
+  );
 
 }
 

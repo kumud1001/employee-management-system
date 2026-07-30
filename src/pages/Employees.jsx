@@ -14,9 +14,17 @@ function Employees() {
       name: "Alice Brown",
       department: "HR",
       role: "Manager"
+    },
+    {
+      id: 3,
+      name: "David Lee",
+      department: "Finance",
+      role: "Accountant"
     }
   ]);
 
+
+  const [search, setSearch] = useState("");
 
   const [form, setForm] = useState({
     id: "",
@@ -29,19 +37,19 @@ function Employees() {
   const [editMode, setEditMode] = useState(false);
 
 
-  // Input change
   const handleChange = (e) => {
+
     setForm({
       ...form,
       [e.target.name]: e.target.value
     });
+
   };
 
 
-  // Add / Update Employee
   const saveEmployee = () => {
 
-    if (editMode) {
+    if(editMode){
 
       setEmployees(
         employees.map(emp =>
@@ -51,32 +59,31 @@ function Employees() {
 
       setEditMode(false);
 
-    } else {
-
-      const newEmployee = {
-        ...form,
-        id: employees.length + 1
-      };
+    }
+    else{
 
       setEmployees([
         ...employees,
-        newEmployee
+        {
+          ...form,
+          id: employees.length + 1
+        }
       ]);
+
     }
 
 
     setForm({
-      id: "",
-      name: "",
-      department: "",
-      role: ""
+      id:"",
+      name:"",
+      department:"",
+      role:""
     });
 
   };
 
 
-  // Edit button
-  const editEmployee = (emp) => {
+  const editEmployee = (emp)=>{
 
     setForm(emp);
     setEditMode(true);
@@ -84,14 +91,20 @@ function Employees() {
   };
 
 
-  // Delete button
-  const deleteEmployee = (id) => {
+  const deleteEmployee=(id)=>{
 
     setEmployees(
-      employees.filter(emp => emp.id !== id)
+      employees.filter(emp=>emp.id!==id)
     );
 
   };
+
+
+  // Search logic
+  const filteredEmployees = employees.filter(emp =>
+    emp.name.toLowerCase()
+    .includes(search.toLowerCase())
+  );
 
 
   return (
@@ -102,13 +115,13 @@ function Employees() {
 
 
       <h2>
-        {editMode ? "Edit Employee" : "Add Employee"}
+        {editMode ? "Update Employee" : "Add Employee"}
       </h2>
 
 
       <input
         name="name"
-        placeholder="Name"
+        placeholder="Employee Name"
         value={form.name}
         onChange={handleChange}
       />
@@ -131,7 +144,11 @@ function Employees() {
 
 
       <button onClick={saveEmployee}>
-        {editMode ? "Update Employee" : "Add Employee"}
+        {
+          editMode 
+          ? "Update Employee"
+          : "Add Employee"
+        }
       </button>
 
 
@@ -141,9 +158,20 @@ function Employees() {
       <h2>Employee List</h2>
 
 
+      <input
+        placeholder="Search Employee..."
+        value={search}
+        onChange={(e)=>setSearch(e.target.value)}
+      />
+
+
+      <br/><br/>
+
+
       <table border="1" cellPadding="10">
 
         <thead>
+
           <tr>
             <th>ID</th>
             <th>Name</th>
@@ -151,13 +179,14 @@ function Employees() {
             <th>Role</th>
             <th>Action</th>
           </tr>
+
         </thead>
 
 
         <tbody>
 
         {
-          employees.map(emp => (
+          filteredEmployees.map(emp=>(
 
             <tr key={emp.id}>
 
@@ -166,17 +195,21 @@ function Employees() {
               <td>{emp.department}</td>
               <td>{emp.role}</td>
 
-
               <td>
 
-                <button onClick={() => editEmployee(emp)}>
+                <button
+                  onClick={()=>editEmployee(emp)}
+                >
                   Edit
                 </button>
 
 
-                <button onClick={() => deleteEmployee(emp.id)}>
+                <button
+                  onClick={()=>deleteEmployee(emp.id)}
+                >
                   Delete
                 </button>
+
 
               </td>
 
@@ -186,6 +219,7 @@ function Employees() {
         }
 
         </tbody>
+
 
       </table>
 
